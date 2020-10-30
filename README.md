@@ -1,4 +1,4 @@
-# nutanix-karbon-k8s-login
+# Nutanix Karbon Kubernetes login command line
 This project is a command line to automate login to Nutanix Karbon Kubernetes based cluster
 
 # How to install
