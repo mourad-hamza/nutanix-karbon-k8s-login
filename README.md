@@ -1,12 +1,12 @@
 # Nutanix Karbon Kubernetes login command line
 This project is a command line to automate login to Nutanix Karbon Kubernetes based cluster
 
-# How to install
+## How to install
 ```console
 curl -o /usr/bin/karbon-login https://raw.githubusercontent.com/mourad-hamza/nutanix-karbon-k8s-login/main/karbon-login && chmod +x /usr/bin/karbon-login
 ```
 
-# Usage:
+## Usage:
 ```console
 Usage karbon-login -k KARBON_API_URL -c KUBERNETES_CLUSTER_NAME [ -i INSECURE | -u USERNAME | -p PASSWORD ]
       karbon-login -h
