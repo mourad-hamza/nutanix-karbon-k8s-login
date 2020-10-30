@@ -1,6 +1,11 @@
 # Nutanix Karbon Kubernetes login command line
 This project is a command line to automate login to Nutanix Karbon Kubernetes based cluster
 
+## Resouces
+This command line is based on Prism central Karbon API : https://www.nutanix.dev/reference/karbon/api-reference/cluster/getk8sclusterkubeconfig/
+that help to download the Kubernetes config file from a given cluster
+
+
 ## How to install
 ```console
 curl -o /usr/bin/karbon-login https://raw.githubusercontent.com/mourad-hamza/nutanix-karbon-k8s-login/main/karbon-login && chmod +x /usr/bin/karbon-login
