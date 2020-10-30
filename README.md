@@ -5,6 +5,16 @@ This project is a command line to automate login to Nutanix Karbon Kubernetes ba
 This command line is based on Prism central Karbon API : https://www.nutanix.dev/reference/karbon/api-reference/cluster/getk8sclusterkubeconfig/
 that help to download the Kubernetes config file from a given cluster
 
+## Requirements
+Have already created users with at least view permission on Prism Central, users can be local or from LDAP
+Have installed curl command
+```console
+# RHEL / CENTOS
+yum install -y curl
+
+# Debian / Ubuntu
+apt-get install -y curl
+```
 
 ## How to install
 ```console
