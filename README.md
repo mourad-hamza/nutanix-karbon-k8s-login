@@ -8,8 +8,8 @@ curl -o /usr/bin/karbon-login https://raw.githubusercontent.com/mourad-hamza/nut
 
 # Usage:
 ```console
-Usage ./karbon-login -k KARBON_API_URL -c KUBERNETES_CLUSTER_NAME [ -i INSECURE | -u USERNAME | -p PASSWORD ]
-      ./karbon-login -h
+Usage karbon-login -k KARBON_API_URL -c KUBERNETES_CLUSTER_NAME [ -i INSECURE | -u USERNAME | -p PASSWORD ]
+      karbon-login -h
 
 This command is to automate login to Nutanix Karbon Kubernetes based cluster
 it simply gets the config file from Nutanix Prism central Karbon server for a given Kubernetes cluster and stores it in the user home directory ~/.kube/config :
