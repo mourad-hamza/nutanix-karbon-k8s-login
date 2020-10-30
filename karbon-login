@@ -1,0 +1,94 @@
+#!/bin/bash
+# This command line to automate login to Nutanix Karbon Kubernetes based cluster
+# Repository: https://github.com/mourad-hamza/nutanix-karbon-k8s-login.git
+# Prism central based API : https://www.nutanix.dev/reference/karbon/api-reference/cluster/getk8sclusterkubeconfig/
+# Licence: Apache License, Version 2.0, January 2004, http://www.apache.org/licenses/
+
+# Help method
+usage()
+{
+  echo ""
+  echo "Usage $0 -k KARBON_API_URL -c KUBERNETES_CLUSTER_NAME [ -i INSECURE | -u USERNAME | -p PASSWORD ]"
+  echo "      $0 -h"
+  echo ""
+  echo "This command is to automate login to Nutanix Karbon Kubernetes based cluster"
+  echo "it simply gets the config file from Nutanix Prism central Karbon server for a given Kubernetes cluster and stores it in the user home directory ~/.kube/config : "
+  echo ""
+  echo "Options "
+  echo " -k or --karbon-api-url  : Karbon API URL, like https://IP_ADDRESS:9440 or https://FQDN:9440"
+  echo " -c or --k8s-cluster     : Kubernetes cluster name in Karbon clusters list"
+  echo " -i or --insecure        : Disable SSL certificat check for Prism central URL"
+  echo " -u or --username        : Prism central username"
+  echo " -p or --password        : Prism central password" 
+  echo " -h or --help            : Display this help"
+  echo ""
+  echo "Notes "
+  echo " This command line can be used in an interactive or non-interactive mode"
+  echo " this will depend on the login and password given in the arguments" 
+exit 1
+}
+
+# Get the arguments
+while [ $# -ne 0 ]
+do
+  case  $1 in
+        -h) usage
+        ;;
+        --help) usage
+        ;;
+        -k) shift;KARBON_API_URL=$1;shift
+        ;;
+        --karbon-api-url) shift;KARBON_API_URL=$1;shift
+        ;;
+        -c) shift;KUBERNETES_CLUSTER_NAME=$1;shift
+        ;;
+        --k8s-cluster) shift;KUBERNETES_CLUSTER_NAME=$1;shift
+        ;;
+        -i) shift;INSECURE=-k
+        ;;
+        --insecure) shift;INSECURE=-k
+        ;;
+        -u) shift;USERNAME=$1;shift
+        ;;
+        --username) shift;USERNAME=$1;shift
+        ;;
+        -p) shift;PASSWORD=$1;shift
+        ;;
+        --password) shift;PASSWORD=$1;shift
+        ;;
+        *)
+        echo " $0: invalid option -- $1"
+        echo "Try '$0 --help' for more information."
+        usage
+        ;;
+  esac
+done
+
+# Check if the mandatory arguments are well filed
+[ -z "$KARBON_API_URL" -o -z "$KUBERNETES_CLUSTER_NAME" ] && usage
+
+# Check if the optional arguments are filed, if not fill the default values
+[ -z $USERNAME ] && read -p "Enter your username : " USERNAME
+[ -z $PASSWORD ] && read -s -p "Enter your password : " PASSWORD
+
+# Fill the config file path
+CONFIG_FOLDER=~/.kube
+CONFIG_FILE="config"
+
+# Create config file path if not exist
+mkdir -p $CONFIG_FOLDER
+
+# Get Kubernetes config file
+curl -s $INSECURE --user $USERNAME:$PASSWORD $KARBON_API_URL/karbon/v1/k8s/clusters/$KUBERNETES_CLUSTER_NAME/kubeconfig| \
+sed -z 's/\\n/\n/g'|sed '/}/d'|sed '/{/d'>$CONFIG_FOLDER/$CONFIG_FILE
+
+# Correct config file permissions
+chmod og-r $CONFIG_FOLDER/$CONFIG_FILE
+
+# Check if we get the config file 
+if [ -s "$CONFIG_FOLDER/$CONFIG_FILE" ] 
+then
+        echo "Login success"
+else
+        echo "Login or password incorrect"
+fi
