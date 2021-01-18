@@ -18,7 +18,7 @@ apt-get install -y curl
 
 ## How to install
 ```console
-curl -o /usr/bin/karbon-login https://raw.githubusercontent.com/mourad-hamza/nutanix-karbon-k8s-login/main/karbon-login && chmod +x /usr/bin/karbon-login
+curl -o /usr/local/bin/karbon-login https://raw.githubusercontent.com/mourad-hamza/nutanix-karbon-k8s-login/main/karbon-login && chmod +x /usr/local/bin/karbon-login
 ```
 
 ## Usage:
